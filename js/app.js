@@ -30,7 +30,7 @@ const b2s = (bytes, sep = '', prefix = '', suffix = '') => {
     }).join(sep);
 };
 
-const format = (data, num_of_interval = 16) => {
+const binaryFormat = (data, num_of_interval = 16) => {
     let target = data.replace(/\r?\n|\s/g, '');
     let array = s2b(target);
     let str = '';
@@ -40,17 +40,17 @@ const format = (data, num_of_interval = 16) => {
     return str;
 };
 
-const open = (event) => {
+const binaryOpen = (event) => {
     let file = event.target.files[0];
     let r = new FileReader();
     r.onload = (f) => {
-        document.getElementById('binary').value = format(b2s(new Uint8Array(f.target.result)));
+        document.getElementById('binaryData').value = binaryFormat(b2s(new Uint8Array(f.target.result)));
     };
     r.readAsArrayBuffer(file);
 };
 
-const save = _ => {
-    let target = document.getElementById('binary').value.replace(/\r?\n|\s/g, '');
+const binarySave = _ => {
+    let target = document.getElementById('binaryData').value.replace(/\r?\n|\s/g, '');
     let array = s2b(target);
     let buf = new ArrayBuffer(array.length);
     let d = new DataView(buf);
@@ -69,8 +69,8 @@ const save = _ => {
 };
 
 window.addEventListener('DOMContentLoaded', _ => {
-    document.getElementById('binary').addEventListener('change', (event) => document.getElementById('binary').value = format(document.getElementById('binary').value));
-    document.getElementById('open').addEventListener('change', (event) => open(event));
-    document.getElementById('open').addEventListener('click', (event) => event.target.value = '');
-    document.getElementById('save').addEventListener('click', () => save());
+    document.getElementById('binaryData').addEventListener('change', (event) => document.getElementById('binaryData').value = binaryFormat(document.getElementById('binaryData').value));
+    document.getElementById('binaryOpen').addEventListener('change', (event) => binaryOpen(event));
+    document.getElementById('binaryOpen').addEventListener('click', (event) => event.target.value = '');
+    document.getElementById('binarySave').addEventListener('click', () => binarySave());
 });
